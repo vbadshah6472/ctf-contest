@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Level 2 - STEM ELITES CLUB CTF</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-image: url('https://images.pexels.com/photos/2693529/pexels-photo-2693529.jpeg');
+            background-size: cover;
+            color: white;
+            user-select: none; /* Prevent text selection */
+        }
+        .container {
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: rgba(28, 32, 48, 0.85);
+            border-radius: 10px;
+            box-shadow: 0px 0px 15px 5px rgba(0, 140, 255, 0.75);
+            text-align: center;
+            border: 1px solid #007bff;
+            position: relative;
+        }
+        .scoreboard {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            padding: 10px;
+            background: linear-gradient(to right, #12c2e9, #c471ed, #f64f59);
+            border-radius: 8px;
+            box-shadow: 0 0 15px 5px rgba(255, 237, 131, 0.8);
+            color: #fff;
+            text-align: center;
+            font-size: 16px;
+        }
+        .timer {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            padding: 10px;
+            background: linear-gradient(to right, #f12711, #f5af19);
+            border-radius: 8px;
+            box-shadow: 0 0 15px 5px rgba(241, 39, 17, 0.8);
+            color: #fff;
+            text-align: center;
+            font-size: 16px;
+        }
+        h1, h2 {
+            background: linear-gradient(to right, #6a11cb, #2575fc);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-size: 2.5em;
+            text-shadow: 0px 0px 8px rgba(106, 17, 203, 0.8);
+            margin-bottom: 20px;
+        }
+        h3 {
+            margin: 0;
+            font-size: 18px;
+        }
+        .puzzle {
+            font-size: 18px;
+            margin-bottom: 20px;
+        }
+        input[type="text"] {
+            padding: 10px;
+            border: 2px solid #00c6ff;
+            border-radius: 5px;
+            font-size: 16px;
+            color: #000;
+            background-color: #fff;
+            box-shadow: none;
+        }
+        .btn {
+            padding: 10px 20px;
+            font-size: 18px;
+            color: #fff;
+            background-color: #007bff;
+            border: 2px solid #007bff;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            box-shadow: 0 0 15px #00c6ff;
+        }
+        .btn:hover {
+            background-color: #0056b3;
+            border-color: #0056b3;
+            box-shadow: 0 0 15px #ffec83;
+        }
+        .message {
+            margin-top: 20px;
+        }
+        .next-level-btn {
+            display: none;
+            padding: 10px 20px;
+            font-size: 18px;
+            color: #fff;
+            background-color: #4CAF50;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            box-shadow: 0 0 15px rgba(76, 175, 80, 0.8);
+            position: relative;
+            left: 50%;
+            transform: translateX(-50%);
+            margin-top: 20px; /* Added margin */
+            animation: shine 2s infinite; /* Added shining effect */
+        }
+        @keyframes shine {
+            0% {
+                box-shadow: 0 0 15px rgba(76, 175, 80, 0.8);
+            }
+            50% {
+                box-shadow: 0 0 20px rgba(76, 175, 80, 0.8);
+            }
+            100% {
+                box-shadow: 0 0 15px rgba(76, 175, 80, 0.8);
+            }
+        }
+        /* Skip Button Styles */
+        .skip-btn {
+            position: absolute;
+            bottom: 20px;
+            left: 20px;
+            padding: 5px 10px;
+            font-size: 14px;
+            color: #fff;
+            background-color: #ff4d4d; /* Red background */
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            box-shadow: 0 0 10px rgba(255, 77, 77, 0.8);
+            z-index: 999; /* Ensure it's above other elements */
+        }
+        .skip-btn:hover {
+            background-color: #ff1a1a; /* Darker red on hover */
+        }
+        /* Skip Button Warning Styles */
+        .skip-warning {
+            position: absolute;
+            bottom: 50px;
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 10px;
+            background-color: rgba(255, 77, 77, 0.9); /* Red with transparency */
+            color: #fff;
+            border-radius: 5px;
+            box-shadow: 0 0 15px rgba(255, 77, 77, 0.8);
+            z-index: 999; /* Ensure it's above other elements */
+            display: none; /* Initially hidden */
+        }
+        /* Skip Button Warning Styles - Animation */
+        @keyframes slideIn {
+            0% {
+                transform: translate(-50%, 100%);
+            }
+            100% {
+                transform: translate(-50%, 0);
+            }
+        }
+    </style>
+</head>
+<body oncopy="return false" onpaste="return false" oncut="return false">
+    <div class="container">
+        <div class="scoreboard">
+            <h3>Score: <span id="score">0</span></h3>
+        </div>
+        <div class="timer">
+            <h3>Time Left: <span id="timer">02:00</span></h3>
+        </div>
+        <h1>STEM ELITES CLUB</h1>
+        <h2>Level 2</h2>
+        <div id="password-section">
+            <p class="puzzle">Enter the password received from the previous level to unlock the puzzle:</p>
+            <input type="text" id="passwordInput" placeholder="Enter password" onkeypress="if(event.keyCode == 13) {checkPassword();}">
+            <button class="btn" onclick="checkPassword()">Submit</button>
+            <div class="message" id="passwordMessage"></div>
+        </div>
+        <div id="puzzle-section" style="display:none;">
+            <p class="puzzle">What is the largest planet in our solar system?</p>
+            <div>
+                <input type="text" id="answerInput" placeholder="Enter your answer" onkeypress="if(event.keyCode == 13) {checkAnswer();}">
+                <button class="btn" onclick="checkAnswer()">Submit</button>
+            </div>
+            <div class="message" id="message"></div>
+            <button class="next-level-btn" onclick="window.location.href='level3.html'">Proceed to Next Level</button>
+        </div>
+        <!-- Skip Button -->
+        <button class="skip-btn" onclick="showSkipWarning()">Skip (<span id="skipCount">3</span>)</button>
+        <!-- Skip Warning Message -->
+        <div class="skip-warning" id="skipWarning">
+            Are you sure to skip the level?
+            <button onclick="hideSkipWarning()">No</button>
+            <button onclick="skipLevel()">Yes, Skip</button>
+        </div>
+    </div>
+    <script>
+        let score = parseInt(localStorage.getItem('score')) || 0;
+        let skipsLeft = parseInt(localStorage.getItem('skipsLeft')) || 3; // Initial number of skips
+        let timeLeft = 120; // 2 minutes
+        let timerPaused = true; // To keep track of whether the timer is paused
+        let incorrectAttempts = 0; // Initialize incorrect attempts
+
+        document.getElementById("score").innerText = score;
+        document.getElementById("skipCount").innerText = skipsLeft;
+
+        function startTimer() {
+            if (!timerPaused) { // Only start if the timer is not paused
+                const timerInterval = setInterval(() => {
+                    if (timeLeft <= 0) {
+                        clearInterval(timerInterval);
+                        updateScore(-5); // Deduct 5 points if time runs out
+                        proceedToNextLevel();
+                    } else {
+                        timeLeft--;
+                        updateTimerDisplay();
+                    }
+                }, 1000);
+            }
+        }
+
+        function updateTimerDisplay() {
+            const minutes = Math.floor(timeLeft / 60);
+            const seconds = timeLeft % 60;
+            document.getElementById("timer").innerText = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+        }
+
+        function checkPassword() {
+            const enteredPassword = document.getElementById("passwordInput").value.trim();
+            const correctPassword = "level2Pass1234"; // Replace with the actual constant password
+
+            if (enteredPassword === correctPassword) {
+                document.getElementById("password-section").style.display = 'none';
+                document.getElementById("puzzle-section").style.display = 'block';
+                document.getElementById("passwordMessage").innerHTML = "<span style='color: green;'>Password correct! Unlocking the puzzle...</span>";
+
+                // Reset and start the timer
+                timeLeft = 120; // Reset timer to 2 minutes
+                updateTimerDisplay();
+                timerPaused = false; // Unpause the timer
+                startTimer();
+            } else {
+                document.getElementById("passwordMessage").innerHTML = "<span style='color: red;'>Incorrect password. Try again.</span>";
+            }
+        }
+
+        function checkAnswer() {
+            const userAnswer = document.getElementById("answerInput").value.trim();
+            const correctAnswer = "Jupiter"; // Replace with the actual answer
+
+            if (userAnswer === correctAnswer) {
+                document.getElementById("message").innerHTML = "<span style='color: green;'>Correct! Your password for the next level is: constantPassword</span>";
+                document.querySelector('.next-level-btn').style.display = 'block'; // Show next level button
+                updateScore(8); // Assuming the user gets 8 points for this level
+                document.getElementById("answerInput").value = ""; // Clear input field after correct answer
+            } else {
+                document.getElementById("message").innerHTML = "<span style='color: red;'>Incorrect. Try again.</span>";
+                incorrectAttempts++;
+                if (incorrectAttempts % 3 === 0) {
+                    updateScore(-2); // Deduct 2 points for every third incorrect attempt
+                }
+            }
+        }
+
+        function updateScore(points) {
+            score += points;
+            document.getElementById("score").innerText = score;
+            localStorage.setItem('score', score); // Save updated score to local storage
+        }
+
+        // Skip Level Functions
+        function showSkipWarning() {
+            document.getElementById("skipWarning").style.display = "block";
+        }
+
+        function hideSkipWarning() {
+            document.getElementById("skipWarning").style.display = "none";
+        }
+
+        function skipLevel() {
+            if (skipsLeft > 0) {
+                skipsLeft--;
+                localStorage.setItem('skipsLeft', skipsLeft); // Save skips left to local storage
+                document.getElementById("skipCount").innerText = skipsLeft;
+                updateScore(-5); // Deduct 5 points when skipping
+                proceedToNextLevel();
+            } else {
+                alert('You have no skips left.');
+            }
+        }
+
+        function proceedToNextLevel() {
+            window.location.href = 'level3.html'; // Change URL accordingly
+        }
+
+        // Initially update skip button text
+        document.getElementById("skipCount").innerText = skipsLeft;
+
+        // Start the timer on page load if not paused
+        if (!timerPaused) {
+            startTimer();
+        }
+    </script>
+</body>
+</html>
