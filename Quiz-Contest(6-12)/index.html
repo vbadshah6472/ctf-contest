@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome to STEM Elites Club Quiz Contest</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-size: cover;
+            background-position: center;
+            color: white;
+        }
+        .container {
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: rgba(28, 32, 48, 0.85); /* Semi-transparent background for readability */
+            border-radius: 10px;
+            box-shadow: 0px 0px 15px 5px rgba(0, 140, 255, 0.75);
+            text-align: center;
+            border: 1px solid #007bff;
+        }
+        h1 {
+            background: linear-gradient(to right, #6a11cb, #2575fc); /* New gradient for heading */
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0px 0px 8px rgba(106, 17, 203, 0.8);
+            margin-bottom: 20px;
+            font-size: 2.5em;
+            letter-spacing: 2px;
+        }
+        h2 {
+            background: linear-gradient(to right, #12c2e9, #c471ed, #f64f59); /* Different gradient for subtitle */
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+        p {
+            font-size: 16px;
+            line-height: 1.6;
+            margin-bottom: 25px;
+            color: #ccd6f6;
+        }
+        .btn {
+            display: inline-block;
+            padding: 10px 20px;
+            font-size: 18px;
+            color: #fff;
+            background-color: #007bff;
+            border: 2px solid #00c6ff; /* Customized border */
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 0 15px #00c6ff;
+        }
+        .btn:active, .btn:focus {
+            outline: none;
+        }
+        .btn:hover {
+            background-color: #0056b3;
+            box-shadow: 0 0 15px #ffec83; /* Shining effect on hover */
+        }
+        .loading-bar {
+            position: absolute;
+            background-color: #4CAF50;
+            top: 0;
+            left: 0;
+            width: 0%;
+            height: 100%;
+            transition: width 2s;
+            border-radius: 5px;
+            z-index: 0;
+        }
+        .btn-text {
+            position: relative;
+            z-index: 1;
+        }
+    </style>
+    <script>
+        function startChallenge() {
+            const btn = document.getElementById('startButton');
+            const textSpan = document.getElementById('buttonText');
+            textSpan.innerHTML = 'Starting...';
+            document.getElementById('loadingBar').style.width = '100%';
+            btn.disabled = true;
+            setTimeout(function() {
+                window.location.href = 'level1.html';
+            }, 2000); // Simulate a loading time before navigating
+        }
+
+        function setRandomBackground() {
+            const images = [
+                'https://source.unsplash.com/1600x900/?technology',
+                'https://source.unsplash.com/1600x900/?education',
+                'https://source.unsplash.com/1600x900/?science',
+                'https://source.unsplash.com/1600x900/?innovation',
+                'https://source.unsplash.com/1600x900/?learning'
+            ];
+            const randomImage = images[Math.floor(Math.random() * images.length)];
+            document.body.style.backgroundImage = `url(${randomImage})`;
+        }
+        
+        document.addEventListener('DOMContentLoaded', setRandomBackground);
+    </script>
+</head>
+<body>
+    <div class="container">
+        <h1>STEM ELITES CLUB</h1>
+        <h2>QUIZ COMPETITION (Grades 6-11)</h2>
+        <p>Welcome to the STEM Elites Club's Quiz Competition. You are about to embark on a journey through exciting and challenging questions designed to test your knowledge.</p>
+        <p>Click the button below to begin the quiz. Good luck!</p>
+        <button class="btn" id="startButton" onclick="startChallenge()">
+            <span class="btn-text" id="buttonText">Begin the Quiz</span>
+            <div class="loading-bar" id="loadingBar"></div>
+        </button>
+    </div>
+</body>
+</html>
